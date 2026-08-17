@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to AI & Python | Learning Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 25, 40, 0.75);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1; /* Indigo */
+            --secondary: #a855f7; /* Purple */
+            --cyan: #06b6d4;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --glow: 0 0 25px rgba(99, 102, 241, 0.15);
+            --glow-cyan: 0 0 25px rgba(6, 182, 212, 0.15);
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Layout & Containers */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Glowing Header */
+        header {
+            padding: 4rem 0 3rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #d8b4fe;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            animation: pulse 3s infinite alternate;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 30%, #a855f7 70%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 0.5rem;
+            max-width: 800px;
+            margin: 1.5rem auto 3.5rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: var(--glow);
+        }
+
+        /* Content Sections */
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 32px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        /* Grid Cards styling */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.25);
+            box-shadow: var(--glow);
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .glass-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Nested Concepts Diagram (AI > ML > DL) */
+        .diagram-container {
+            margin: 3rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nested-box {
+            border: 2px solid;
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 750px;
+            transition: all 0.4s ease;
+        }
+
+        .nested-ai {
+            background: rgba(99, 102, 241, 0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.05);
+        }
+
+        .nested-ml {
+            background: rgba(168, 85, 247, 0.06);
+            border-color: rgba(168, 85, 247, 0.3);
+            margin: 1.5rem 0;
+        }
+
+        .nested-dl {
+            background: rgba(6, 182, 212, 0.07);
+            border-color: rgba(6, 182, 212, 0.3);
+            padding: 1.5rem;
+        }
+
+        .box-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .box-title span.tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .ai-tag { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .ml-tag { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .dl-tag { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+
+        .nested-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Beautiful Comparison Table */
+        .table-wrapper {
+            overflow-x: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            background-color: rgba(99, 102, 241, 0.08);
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .highlight-col {
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Code Viewer Workspace */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: #0d1117;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .workspace-header {
+            background: #161b22;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .workspace-tabs {
+            display: flex;
+            background: #161b22;
+            padding: 0 1rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.85rem 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: #0d1117;
+        }
+
+        .code-container {
+            padding: 2rem;
+            overflow: auto;
+            max-height: 480px;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #c9d1d9;
+        }
+
+        /* Keyword syntax styling */
+        .kw { color: #ff7b72; font-weight: 500; } /* Keyword */
+        .fn { color: #d2a8ff; } /* Function */
+        .str { color: #a5d6ff; } /* String */
+        .cm { color: #8b949e; font-style: italic; } /* Comment */
+        .num { color: #79c0ff; } /* Number */
+        .op { color: #ff7b72; } /* Operator */
+
+        /* Interactive chatbot simulator styling */
+        .chat-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05));
+        }
+
+        .chat-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+        }
+
+        .chat-header {
+            background: rgba(99, 102, 241, 0.15);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: var(--glow);
+        }
+
+        .chat-status {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .status-indicator {
+            font-size: 0.75rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-indicator::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .chat-body {
+            height: 320px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.85rem 1.1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        .message.bot {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.75rem 1.25rem;
+            color: white;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 100px;
+            color: white;
+            padding: 0 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.03);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            background: #050811;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.1); transform: scale(1); }
+            100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); transform: scale(1.02); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            nav { border-radius: 20px; flex-direction: column; gap: 0.5rem; padding: 1rem; }
+            nav a { width: 100%; text-align: center; }
+            th, td { padding: 0.75rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="badge">Artificial Intelligence foundations</div>
+            <h1>Introduction to AI & Python</h1>
+            <p class="subtitle">A stunning guide mapping the transition from rule-based programming to self-learning intelligent architectures.</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav id="navbar">
+            <a href="#core-concepts" class="active">Core Concepts</a>
+            <a href="#ai-ml-dl">AI vs ML vs DL</a>
+            <a href="#real-world">Applications</a>
+            <a href="#python-code">Python Playground</a>
+            <a href="#simulator">AI Chatbot</a>
+        </nav>
+
+        <!-- SECTION 1: Core Concepts -->
+        <section id="core-concepts">
+            <h2>Core Foundations</h2>
+            <div class="grid-cards">
+                <div class="glass-card">
+                    <h3>What is AI?</h3>
+                    <p>Artificial Intelligence represents machines designed to solve complex logic challenges, replicate sensory comprehension, or synthesize cognitive solutions equivalent to human intellect.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Why Python?</h3>
+                    <p>Python provides standard visual structures, dynamic memory typing, and a vast community of frameworks (e.g. Scikit-Learn, PyTorch) that simplify multi-layer vector calculations.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Modern Paradigm</h3>
+                    <p>Instead of manually programing loops and conditional edge cases, Machine Learning shifts the load: we supply data and outcomes, and algorithms discover the underlying code logic automatically.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: AI vs ML vs DL Diagram -->
+        <section id="ai-ml-dl">
+            <h2>AI, ML & Deep Learning</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Deep Learning is a specialized subfield of Machine Learning, which itself is a subset of the overarching domain of Artificial Intelligence. Hover/View the nested structure below:</p>
+
+            <div class="diagram-container">
+                <div class="nested-box nested-ai">
+                    <div class="box-title">
+                        ARTIFICIAL INTELLIGENCE (AI)
+                        <span class="tag ai-tag">Broad Domain</span>
+                    </div>
+                    <p>The science of making machines smart. Includes heuristics, expert systems, and rules that simulate human logic.</p>
+                    
+                    <div class="nested-box nested-ml">
+                        <div class="box-title">
+                            MACHINE LEARNING (ML)
+                            <span class="tag ml-tag">Statistical Subfield</span>
+                        </div>
+                        <p>Algorithms that improve automatically through experiences. Discovers mathematical structures inside datasets without rigid programming.</p>
+                        
+                        <div class="nested-box nested-dl">
+                            <div class="box-title">
+                                DEEP LEARNING (DL)
+                                <span class="tag dl-tag">Neural Architectures</span>
+                            </div>
+                            <p>Multi-layered Artificial Neural Networks that learn hierarchical representations directly from raw multi-dimensional inputs (audio, text, image pixel vectors).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Artificial Intelligence</th>
+                            <th>Machine Learning</th>
+                            <th>Deep Learning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="highlight-col">Core Method</td>
+                            <td>Rule-based heuristics & algorithms</td>
+                            <td>Statistical calculations</td>
+                            <td>Multi-layer artificial neural networks</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-col">Feature Setup</td>
+                            <td>Directly hardcoded by programmers</td>
+                            <td>Designed manually by data engineers</td>
+                            <td>Learned automatically by hidden layers</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-col">Dataset Size</td>
+                            <td>None or small database tables</td>
+                            <td>Thousands of structured data points</td>
+                            <td>Millions of unstructured files</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-col">Compute Resources</td>
+                            <td>Low (Runs on basic microprocessors)</td>
+                            <td>Medium (Runs on standard computer CPUs)</td>
+                            <td>High (Requires specialized GPU clusters)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Real World Applications -->
+        <section id="real-world">
+            <h2>Real-World AI Applications</h2>
+            <div class="grid-cards">
+                <div class="glass-card" style="box-shadow: var(--glow-cyan); border-color: rgba(6, 182, 212, 0.2);">
+                    <h3 style="color: var(--cyan);">Natural Language Processing</h3>
+                    <p>Large Language Models (LLMs) parse human sentence context, summarize scientific research, write structured code, and serve as conversational partners.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Computer Vision</h3>
+                    <p>Multi-layer convolutional networks inspect assembly lines for micro-defects, analyze MRI scans for early cancer cells, and support biometric security.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Recommendation Engines</h3>
+                    <p>Content graphs trace online activities to customize streaming suggestions, target products, and shape digital search relevance feeds.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Code Workspace Playground -->
+        <section id="python-code">
+            <h2>Python Playground</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Explore the beginner-friendly Python scripts created for this module. Switch tabs to see code examples of each fundamental programming concept.</p>
+
+            <div class="workspace">
+                <div class="workspace-header">
+                    <div class="window-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);" id="file-label">variables_and_types.py</span>
+                </div>
+                <div class="workspace-tabs">
+                    <button class="tab-btn active" onclick="switchCode('variables')">variables_and_types.py</button>
+                    <button class="tab-btn" onclick="switchCode('loops')">loops_and_conditionals.py</button>
+                    <button class="tab-btn" onclick="switchCode('lists')">lists_and_data_structures.py</button>
+                    <button class="tab-btn" onclick="switchCode('functions')">functions_and_ai_simulator.py</button>
+                </div>
+                <div class="code-container">
+                    <pre><code id="code-block">Loading code snippets...</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: AI Customer Support chatbot Simulator -->
+        <section id="simulator">
+            <h2>Live AI Chatbot Simulator</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">This simulator matches the backend logic implemented in the `functions_and_ai_simulator.py` script. Type keywords like <b>AI, ML, DL, Python, or Help</b> to test the response logic.</p>
+
+            <div class="chat-card">
+                <div class="chat-header">
+                    <div class="chat-avatar">C</div>
+                    <div class="chat-status">
+                        <span class="status-title">Codex Assistant</span>
+                        <span class="status-indicator">Online</span>
+                    </div>
+                </div>
+                <div class="chat-body" id="chat-box">
+                    <div class="message bot">
+                        Hello! I am Codex, your AI assistant. How can I help you today? Type 'help' to see what I know.
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Type a message (e.g. What is ML?)..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendChat()">Send</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Deep Sangani. Created for the Intro to AI & Python Project.</p>
+        <div class="footer-links">
+            <a href="https://github.com/Deepsangani05/intro-to-ai-python" target="_blank">GitHub Repository</a>
+            <a href="learning_notes.md" target="_blank">View Raw Markdown Notes</a>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Python code snippets for presentation
+        const codeSnippets = {
+            variables: `<span class="cm"># Variables and Data Types in Python</span>
+<span class="kw">name</span> = <span class="str">"Deep"</span>            <span class="cm"># String (str)</span>
+<span class="kw">age</span> = <span class="num">21</span>                 <span class="cm"># Integer (int)</span>
+<span class="kw">learning_rate</span> = <span class="num">0.001</span>    <span class="cm"># Float (float)</span>
+<span class="kw">is_interested_in_ai</span> = <span class="kw">True</span>  <span class="cm"># Boolean (bool)</span>
+
+<span class="cm"># Arithmetic Operations</span>
+<span class="kw">addition</span> = <span class="kw">a</span> <span class="op">+</span> <span class="kw">b</span>
+<span class="kw">division</span> = <span class="kw">a</span> <span class="op">/</span> <span class="kw">b</span>
+<span class="kw">integer_division</span> = <span class="kw">a</span> <span class="op">//</span> <span class="kw">b</span>  <span class="cm"># Trims decimal</span>
+<span class="kw">modulus</span> = <span class="kw">a</span> <span class="op">%</span> <span class="kw">b</span>           <span class="cm"># Remainder</span>
+
+<span class="cm"># Print formatted string</span>
+<span class="fn">print</span>(<span class="str">f"Name: {name}, Age: {age}, Rate: {learning_rate}"</span>)`,
+            
+            loops: `<span class="cm"># Loops and Conditionals in Python</span>
+<span class="cm"># Guessing Game Loop</span>
+<span class="kw">while</span> <span class="kw">attempts</span> <span class="op">&lt;</span> <span class="kw">max_attempts</span>:
+    <span class="kw">guess</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter guess: "</span>))
+    
+    <span class="kw">if</span> <span class="kw">guess</span> <span class="op">&lt;</span> <span class="kw">secret_number</span>:
+        <span class="fn">print</span>(<span class="str">"Too LOW! Try a higher number."</span>)
+    <span class="kw">elif</span> <span class="kw">guess</span> <span class="op">&gt;</span> <span class="kw">secret_number</span>:
+        <span class="fn">print</span>(<span class="str">"Too HIGH! Try a lower number."</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="str">"🎉 Correct guess!"</span>)
+        <span class="kw">break</span>
+
+<span class="cm"># Count even numbers via 'for' loop and 'continue'</span>
+<span class="kw">for</span> <span class="kw">num</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="kw">if</span> <span class="kw">num</span> <span class="op">%</span> <span class="num">2</span> <span class="op">!=</span> <span class="num">0</span>:
+        <span class="kw">continue</span>
+    <span class="fn">print</span>(<span class="kw">num</span>, <span class="kw">end</span>=<span class="str">" "</span>)`,
+            
+            lists: `<span class="cm"># Lists and Slicing Operations</span>
+<span class="kw">ai_tech_stack</span> = [<span class="str">"Python"</span>, <span class="str">"TensorFlow"</span>, <span class="str">"PyTorch"</span>]
+
+<span class="cm"># Appending and Inserting</span>
+<span class="kw">ai_tech_stack</span>.<span class="fn">append</span>(<span class="str">"JAX"</span>)
+<span class="kw">ai_tech_stack</span>.<span class="fn">insert</span>(<span class="num">1</span>, <span class="str">"Pandas"</span>)
+
+<span class="cm"># Slicing: list[start:end:step]</span>
+<span class="kw">numbers</span> = [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>]
+<span class="kw">even_numbers</span> = <span class="kw">numbers</span>[::<span class="num">2</span>]  <span class="cm"># [0, 2, 4, 6, 8]</span>
+<span class="kw">reversed_nums</span> = <span class="kw">numbers</span>[::<span class="op">-</span><span class="num">1</span>] <span class="cm"># [9, 8, 7... 0]</span>
+
+<span class="cm"># List Comprehension</span>
+<span class="kw">squared_odds</span> = [<span class="kw">x</span><span class="op">**</span><span class="num">2</span> <span class="kw">for</span> <span class="kw">x</span> <span class="kw">in</span> <span class="kw">numbers</span> <span class="kw">if</span> <span class="kw">x</span> <span class="op">%</span> <span class="num">2</span> <span class="op">!=</span> <span class="num">0</span>]`,
+            
+            functions: `<span class="cm"># Functions and docstrings</span>
+<span class="kw">def</span> <span class="fn">get_bot_response</span>(<span class="kw">user_query</span>: <span class="fn">str</span>, <span class="kw">fallback</span>: <span class="fn">str</span> = <span class="str">"Try another query"</span>) <span class="op">-&gt;</span> <span class="fn">str</span>:
+    <span class="str">"""
+    Search the query in the knowledge base and return matching response.
+    """</span>
+    <span class="kw">cleaned_query</span> = <span class="kw">user_query</span>.<span class="fn">strip</span>().<span class="fn">lower</span>()
+    <span class="kw">for</span> <span class="kw">key</span>, <span class="kw">response</span> <span class="kw">in</span> <span class="kw">KNOWLEDGE_BASE</span>.<span class="fn">items</span>():
+        <span class="kw">if</span> <span class="kw">key</span> <span class="kw">in</span> <span class="kw">cleaned_query</span>:
+            <span class="kw">return</span> <span class="kw">response</span>
+    <span class="kw">return</span> <span class="kw">fallback</span>
+
+<span class="cm"># Call the function</span>
+<span class="kw">reply</span> = <span class="fn">get_bot_response</span>(<span class="str">"What is python?"</span>)`
+        };
+
+        function switchCode(tabKey) {
+            // Update code block content
+            document.getElementById('code-block').innerHTML = codeSnippets[tabKey];
+            document.getElementById('file-label').textContent = tabKey === 'variables' ? 'variables_and_types.py' :
+                                                                tabKey === 'loops' ? 'loops_and_conditionals.py' :
+                                                                tabKey === 'lists' ? 'lists_and_data_structures.py' :
+                                                                'functions_and_ai_simulator.py';
+            
+            // Manage active classes on buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Find clicked button to set active
+            let clickedIndex = 0;
+            if (tabKey === 'loops') clickedIndex = 1;
+            else if (tabKey === 'lists') clickedIndex = 2;
+            else if (tabKey === 'functions') clickedIndex = 3;
+            buttons[clickedIndex].classList.add('active');
+        }
+
+        // Initialize display
+        switchCode('variables');
+
+        // Nav Scroll spy setup
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            let currentId = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 120) {
+                    currentId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentId}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Chatbot simulator logic matching python knowledge base
+        const chatbotKB = {
+            "hello": "Hello! I am Codex, your AI assistant. How can I help you today?",
+            "hi": "Hi there! How can I assist you with your Python or AI learning?",
+            "python": "Python is an interpreted, high-level programming language known for its readability and major role in AI/ML.",
+            "ai": "Artificial Intelligence is the simulation of human intelligence processes by machines, especially computer systems.",
+            "ml": "Machine Learning is a subset of AI that allows software applications to learn from data and improve accuracy without explicit programming.",
+            "dl": "Deep Learning is a specialized subfield of ML based on artificial neural networks with multiple layers.",
+            "help": "You can ask me about: 'AI', 'ML', 'DL', 'Python', or type 'exit' to quit.",
+        };
+
+        function getResponse(query) {
+            const clean = query.trim().toLowerCase();
+            for (let key in chatbotKB) {
+                if (clean.includes(key)) {
+                    return chatbotKB[key];
+                }
+            }
+            return "I'm sorry, I don't understand that yet. Type 'help' to see what I know!";
+        }
+
+        function sendChat() {
+            const inputEl = document.getElementById('chat-input');
+            const text = inputEl.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('chat-box');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chatBox.appendChild(userMsg);
+            
+            inputEl.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Generate bot response after a brief simulated processing latency
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'message bot';
+                botMsg.textContent = getResponse(text);
+                chatBox.appendChild(botMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 400);
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendChat();
+            }
+        }
+    </script>
+</body>
+</html>
